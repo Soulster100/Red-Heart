@@ -25,13 +25,13 @@ namespace MrXMssProduction
             {
                 VirtualInputManger.Instance.MoveLeft = false;
             }
-            if (Input.GetKey(KeyCode.Space)) 
+            if (Input.GetKey(KeyCode.LeftShift))
             {
-                VirtualInputManger.Instance.Jump = true;
+                VirtualInputManger.Instance.Sprint = true;
             }
             else
             {
-                VirtualInputManger.Instance.Jump = false;
+                VirtualInputManger.Instance.Sprint = false;
             }      
             
         }

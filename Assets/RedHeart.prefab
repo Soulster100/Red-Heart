@@ -1328,9 +1328,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2269be361840c6441a6d886b51b4286a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 5
-  Jump: 0
   animator: {fileID: 8414189886258604370}
+  maxStamina: 100
+  currentStamina: 100
 --- !u!1 &8414189887842257621
 GameObject:
   m_ObjectHideFlags: 0
