@@ -13,7 +13,7 @@ namespace MrXMssProduction
         }
         float Speed = 3f;
         public Animator animator;
-        public float maxStamina = 100f;
+        public float maxStamina = 200f;
         public float currentStamina;
 
         bool _tired = false;
@@ -24,15 +24,22 @@ namespace MrXMssProduction
         }
 
         void Update()
-        {   
-/////// Sprint START-----------
+        {
+            /////// Sprint START-----------
+            if (currentStamina > maxStamina)
+            {
+                _tired = false;
+                currentStamina = maxStamina;
+            }
+
             if (_tired == false)
             {
+                Speed = 3;
                 if (VirtualInputManger.Instance.Sprint)
                 {
 
                     if (currentStamina <= 0)
-                    {                       
+                    {
                         VirtualInputManger.Instance.Sprint = false;
                         animator.SetBool(TransitionParameter.Move.ToString(), true);
                         _tired = true;
@@ -46,57 +53,51 @@ namespace MrXMssProduction
                         animator.SetBool(TransitionParameter.Sprint.ToString(), true);
                         Debug.Log(currentStamina);
                     }
-                }                                         
-                else if(currentStamina > maxStamina)             
-                {
-                    _tired = false;
-                  currentStamina = maxStamina;
                 }
-                                  
-            }else if(_tired == true)
+
+                /////// Sprint End-----------
+
+                /////// NO MOVE A&D SAME TIME BABEE
+                if (VirtualInputManger.Instance.MoveRight && VirtualInputManger.Instance.MoveLeft)
+                {
+                    animator.SetBool(TransitionParameter.Move.ToString(), false);
+                    animator.SetBool(TransitionParameter.Sprint.ToString(), false);
+                    return;
+                }
+                /////// NO MOVE GENERAL PELOTUDO
+                if (!VirtualInputManger.Instance.MoveRight && !VirtualInputManger.Instance.MoveLeft)
+                {
+                    animator.SetBool(TransitionParameter.Move.ToString(), false);
+                }
+                /////ADELANTE Y ATRAS START
+
+                if (VirtualInputManger.Instance.MoveRight)
+                {
+                    this.gameObject.transform.Translate(Vector3.forward * Speed * Time.deltaTime);
+                    this.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
+                    animator.SetBool(TransitionParameter.Move.ToString(), true);
+                }
+
+                if (VirtualInputManger.Instance.MoveLeft)
+                {
+                    this.gameObject.transform.Translate(Vector3.forward * Speed * Time.deltaTime);
+                    this.gameObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
+                    animator.SetBool(TransitionParameter.Move.ToString(), true);
+                }
+
+            }
+            else if (_tired == true)
             {
-                Speed = 3;
+                Speed = 0.0f;
+                currentStamina = currentStamina + 1f;
                 animator.SetBool(TransitionParameter.Sprint.ToString(), false);
-            }
-
-            if (currentStamina < maxStamina)
-            {           
-                currentStamina = currentStamina + 0.1f;
-                if (currentStamina > 10f)
-                {
-                    _tired = false;
-                }
-                
-            }
-            /////// Sprint End-----------
-
-            if (VirtualInputManger.Instance.MoveRight && VirtualInputManger.Instance.MoveLeft)
-            {
                 animator.SetBool(TransitionParameter.Move.ToString(), false);
-                animator.SetBool(TransitionParameter.Sprint.ToString(), false);
                 return;
             }
 
-            if (!VirtualInputManger.Instance.MoveRight && !VirtualInputManger.Instance.MoveLeft)
-            {
-                animator.SetBool(TransitionParameter.Move.ToString(), false);
-            }
-/////ADELANTE Y ATRAS START
-            if (VirtualInputManger.Instance.MoveRight)
-            {
-                this.gameObject.transform.Translate(Vector3.forward * Speed * Time.deltaTime);
-                this.gameObject.transform.rotation = Quaternion.Euler(0f, 0f, 0f);
-                animator.SetBool(TransitionParameter.Move.ToString(), true);
-            }
+            Debug.Log(_tired);
+            /////ADELANTE Y ATRAS END          
 
-            if (VirtualInputManger.Instance.MoveLeft)
-            {
-                this.gameObject.transform.Translate(Vector3.forward * Speed * Time.deltaTime);
-                this.gameObject.transform.rotation = Quaternion.Euler(0f, 180f, 0f);
-                animator.SetBool(TransitionParameter.Move.ToString(), true);
-            }
-            
-/////ADELANTE Y ATRAS END          
         }
     }
 }

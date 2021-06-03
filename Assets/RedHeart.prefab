@@ -1329,7 +1329,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   animator: {fileID: 8414189886258604370}
-  maxStamina: 100
+  maxStamina: 200
   currentStamina: 100
 --- !u!1 &8414189887842257621
 GameObject:
