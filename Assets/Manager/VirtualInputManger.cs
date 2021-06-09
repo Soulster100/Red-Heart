@@ -9,7 +9,7 @@ namespace MrXMssProduction
 
         public bool MoveRight;
         public bool MoveLeft;
-        public bool Sprint;
+        public bool Dead;
     }
 }
 
